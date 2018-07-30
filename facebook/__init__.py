@@ -108,7 +108,7 @@ class GraphAPI(object):
         """Fetches the permissions object from the graph."""
         response = self.request(
             "{0}/{1}/permissions".format(self.version, user_id), {}
-            )["data"]
+        )["data"]
         return {x["permission"] for x in response if x["status"] == "granted"}
 
     def get_object(self, id, **args):
@@ -285,6 +285,9 @@ class GraphAPI(object):
                 raise GraphAPIError(response.json())
         else:
             raise GraphAPIError('Maintype was not text, image, or querystring')
+
+        if headers.get('x-app-usage'):
+            result['x-app-usage'] = json.loads(headers['x-app-usage'])
 
         if result and isinstance(result, dict) and result.get("error"):
             raise GraphAPIError(result)

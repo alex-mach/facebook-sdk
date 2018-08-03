@@ -288,6 +288,8 @@ class GraphAPI(object):
 
         if headers.get('x-app-usage'):
             result['x-app-usage'] = json.loads(headers['x-app-usage'])
+        if headers.get('x-page-usage'):
+            result['x-page-usage'] = json.loads(headers['x-page-usage'])
 
         if result and isinstance(result, dict) and result.get("error"):
             raise GraphAPIError(result)
